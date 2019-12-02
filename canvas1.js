@@ -43,16 +43,17 @@ class Game{
         this.board = new Board(id);
         this.columns = [];
         this.clearBoard();
+      //  console.log(this.columns);
     }
     clearBoard(){
-        for (let i = 0; i <= this.board.size; i++){
+        for (let i = 0; i < this.board.size; i++){
             const column = [];
-            for (let j = 0; j <= this.board.size; j++){
+            for (let j = 0; j < this.board.size; j++){
                 column.push(false);
             }
             this.columns.push(column);
+            console.log(column);
         }
-
     }
     set(cells){
         for (let i = 0; i < cells.length; i++) {
