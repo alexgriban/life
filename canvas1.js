@@ -1,5 +1,5 @@
 
-class Board {
+class DrawBoard {
     constructor(id) {
         this.id = id;
         let canvas = document.getElementById(id);
@@ -23,29 +23,23 @@ class Board {
             this.ctx.stroke();
         }
     }
-
-
-    white(a,b) {
+     white(a,b) {
         this.ctx.clearRect(a*this.cellSize,b*this.cellSize,this.cellSize,this.cellSize);
     }
     black(a,b){ //black([a,b])
         this.ctx.fillRect(a*this.cellSize, b*this.cellSize, this.cellSize, this.cellSize);
     }
-
 }
-
 /*const board = new Board('canvas');
-
 board.black(25,25);
 board.white(85,85);*/
-class Game{
+class EmptyBoard {
     constructor(id){
-        this.board = new Board(id);
-        this.columns = [];
-        this.clearBoard();
-      //  console.log(this.columns);
+        this.board = new DrawBoard(id);
+        this.columns = this.createEmptyBoard();
     }
-    clearBoard(){
+    createEmptyBoard(){
+        this.columns = [];
         for (let i = 0; i < this.board.size; i++){
             const column = [];
             for (let j = 0; j < this.board.size; j++){
@@ -55,6 +49,12 @@ class Game{
             console.log(column);
         }
     }
+}
+class Game{
+    constructor(id){
+        this.board = new DrawBoard(id);
+        this.emptyBoard = new EmptyBoard(id);
+    }
     set(cells){
         for (let i = 0; i < cells.length; i++) {
             const[x,y] = cells[i]; //
@@ -63,9 +63,7 @@ class Game{
     }
     run(){
 
-
     }
-
 }
  const game = new Game('canvas');
  game.set([
