@@ -1,5 +1,5 @@
 
-class DrawBoard {
+class View {
     constructor(id) {
         this.id = id;
         let canvas = document.getElementById(id);
@@ -33,16 +33,16 @@ class DrawBoard {
 /*const board = new Board('canvas');
 board.black(25,25);
 board.white(85,85);*/
-class EmptyBoard {
+class Board {
     constructor(id){
-        this.board = new DrawBoard(id);
-        this.columns = this.createEmptyBoard();
+        this.view = new View(id);
+        this.columns = this.createBoard();
     }
-    createEmptyBoard(){
+    createBoard(){
         this.columns = [];
-        for (let i = 0; i < this.board.size; i++){
+        for (let i = 0; i < this.view.size; i++){
             const column = [];
-            for (let j = 0; j < this.board.size; j++){
+            for (let j = 0; j < this.view.size; j++){
                 column.push(false);
             }
             this.columns.push(column);
@@ -52,13 +52,14 @@ class EmptyBoard {
 }
 class Game{
     constructor(id){
-        this.board = new DrawBoard(id);
-        this.emptyBoard = new EmptyBoard(id);
+        this.view = new View(id);
+        this.id = id;
     }
     set(cells){
+        let board = new Board(this.id);
         for (let i = 0; i < cells.length; i++) {
             const[x,y] = cells[i]; //
-            this.board.black(x,y); //this.board.black(cells[i])
+            this.view.black(x,y); //this.board.black(cells[i])
         }
     }
     run(){
