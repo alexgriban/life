@@ -41,35 +41,39 @@ class Board {
     createBoard(){
         this.columns = [];
         for (let i = 0; i < this.view.size; i++){
-            const column = [];
+            this.columns[i] = [];
             for (let j = 0; j < this.view.size; j++){
-                column.push(false);
+                this.columns[i][j] = false;
             }
-            this.columns.push(column);
-            console.log(column);
         }
+        console.log(this.columns);
     }
     createNewColumns(){
         this.newColumns = [];
         for (let i = 0; i < this.view.size; i++){
+            this.newColumns[i] = [];
             for (let j = 0; j < this.view.size; j++){
                 let a = 0;
                 if(i!==0 && j!==0){
                     if (this.columns[i-1][j-1] === true){ a++}
                     if (this.columns[i-1][j] === true){ a++}
-                    if (this.columns[i-1][j+1] === true){ a++}
                     if (this.columns[i][j-1] === true){ a++}
-                    if (this.columns[i+1][j-1] === true){ a++}
                 }
-                if (this.columns[i][j+1] === true){ a++}
-                if (this.columns[i+1][j] === true){ a++}
-                if (this.columns[i+1][j+1] === true){ a++}
+                if(i<this.view.size - 1 && j<this.view.size - 1){
+                    if (this.columns[i][j+1] === true){ a++}
+                    if (this.columns[i+1][j] === true){ a++}
+                    if (this.columns[i+1][j+1] === true){ a++}
+                }
+                if(i!==0 && j!==0 && i<this.view.size - 1 && j<this.view.size - 1){
+                    if (this.columns[i+1][j-1] === true){ a++}
+                    if (this.columns[i-1][j+1] === true){ a++}
+                }
                 if ((this.columns[i][j] === true) && (a === 2 || a === 3) ){this.newColumns[i][j] = true }
-                else if (this.columns[i][j] === false && a>3){ this.newColumns[i][j] = true}
+                else if (this.columns[i][j] === false && a>=3){ this.newColumns[i][j] = true}
                 else {this.newColumns[i][j] = false}
             }
         }
-        console.log(this.newColumns);
+       console.log(this.newColumns);
     }
 
 }
@@ -82,7 +86,7 @@ class Game{
         for (let i = 0; i < cells.length; i++) {
             const[x,y] = cells[i]; //
             this.view.black(x,y); //this.board.black(cells[i])
-            this.board.columns[x][y] = true;
+            this.board.columns[y][x] = true;
         }
     }
     run(){
@@ -90,13 +94,14 @@ class Game{
         for (let i = 0; i < this.view.size; i++) {
             for (let j = 0; j < this.view.size; j++) {
                 if (this.board.newColumns[i][j] === true) {
-                    this.view.black(i+1,+1);
+                    this.view.black(j,i);
                 }
                 else {
-                    this.view.white(i+1,j+1);
+                    this.view.white(j,i);
                 }
             }
         }
+        this.view.drawGrid();
         this.board.columns.push(this.board.newColumns);
     }
 }
